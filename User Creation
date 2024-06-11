@@ -10,3 +10,39 @@ subscriptionId = $(az account show
 	--query "id" --output tsv)
 
 subscriptionScope = "/subscriptions/"$subscriptionId
+
+#CREATION D'un custom role à partir d'un fichier json 
+az role definiton create
+	--role-definiton CustomStorageDataReader.json
+
+
+#ASSIGN THIS ROLE TO A USER
+MSYS_NO_PATHCONV=1 az role assignment create 
+	--assignee "developer@it.com"
+	--role "Custom Stirage Data Reader"
+	--scope $subscriptionScope
+
+
+#Assigning Allowed Azure Resource Types in a Subscription
+#Find Azure Policy ID for "Allowed resources type"
+policyName =$(az policy definition list
+	--query "[?displayName == 'Allowed resources types'].name" --output tsv)
+
+#List of available policy IDs an name
+az policy definition list 
+	--query "[].{Name:name, DisplayName: displayName}"
+
+
+
+#Assign Policy definition to a subscription
+az policy assignment create
+	--name 'Allowed resources types in my subscription'
+	--enforcement-mode Default
+	--policy $policyName
+	--params AllowedResourcesParams.json
+
+
+#TO DELETE AN ASSIGNEMENT POLICY
+az polycy assignment delete
+	--name 'Allowed resources types in my subscription'
+
