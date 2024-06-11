@@ -1,0 +1,11 @@
+{
+    "name": "Custom Storage Data Reader",
+    "IsCustom" : true,
+    "Description": "Read access to Azure Storage",
+    "DataActions" : [
+        "Microsoft.Storage/storageAccounts/blobServices/Containers/blobs/read"
+],
+    "AssignableScopes": [
+        "12345687subs_scope7945"
+    ]
+}
