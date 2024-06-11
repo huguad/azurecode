@@ -1,1 +1,12 @@
 # creation d'un utilisateur
+password = "aleph1"
+
+az ad user create 
+	--display-name developer
+	--password $password
+	--user-principal-name developer@it.com
+
+subscriptionId = $(az account show
+	--query "id" --output tsv)
+
+subscriptionScope = "/subscriptions/"$subscriptionId
